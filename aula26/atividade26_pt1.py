@@ -15,7 +15,6 @@ try:
 
 except Exception as e:
     print(f'Erro ao obter dados: {e}')
-    
 
 try:
     for arquivo in lista_arquivos:
@@ -43,7 +42,7 @@ try:
     print('\nIniciando a Gravação do Arquivo Parquet')
     df_auxilio_brasil.write_parquet(DADOS + 'auxilio_brasil.parquet')
     
-    print('Arquivo Salvo')
+    print('Arquivo Salvo\n')
 
 except Exception as e:
     print(f'Erro 3º try: {e}')
