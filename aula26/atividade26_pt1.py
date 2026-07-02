@@ -2,6 +2,7 @@ import polars as pl
 import os 
 
 try:
+    #Encontra os arquivos e verifica
     DADOS = r'./../dados/auxilio_br/'
 
     lista_arquivos = []
@@ -17,6 +18,7 @@ except Exception as e:
     print(f'Erro ao obter dados: {e}')
 
 try:
+    #Processa os arquivos
     for arquivo in lista_arquivos:
         df = pl.read_csv(DADOS + arquivo, separator=';', encoding='iso-8859-1')
 
@@ -32,8 +34,8 @@ try:
 except Exception as e:
     print(f'Erro 2º try: {e}')
 
-
 try:
+    #Cria arquivo .parquet
     df_auxilio_brasil = df_auxilio_brasil.with_columns(
         pl.col('VALOR PARCELA')
         .str.replace(',', '.')
@@ -49,6 +51,7 @@ except Exception as e:
 
 
 try:
+    #Lê o arquivo parquet
     plano_execucao = (pl.scan_parquet(DADOS + 'auxilio_brasil.parquet')
                       .select(['NOME MUNICÍPIO', 'VALOR PARCELA'])
                       .with_columns([pl.col('NOME MUNICÍPIO').cast(pl.Categorical)])
