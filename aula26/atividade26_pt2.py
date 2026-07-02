@@ -53,11 +53,15 @@ except Exception as e:
 try:
     #Lê o arquivo parquet
     plano_execucao = (pl.scan_parquet(DADOS + 'auxilio_brasil.parquet')
-                      .select(['NOME MUNICÍPIO', 'VALOR PARCELA'])
+                      .select(['NOME MUNICÍPIO', 'VALOR PARCELA','NOME FAVORECIDO'])
                       .with_columns([pl.col('NOME MUNICÍPIO').cast(pl.Categorical)])
                       .group_by('NOME MUNICÍPIO')
-                      .agg(pl.col('VALOR PARCELA').sum())
-                      .sort('VALOR PARCELA', descending=True))
+                      .agg([pl.col("VALOR PARCELA").max().alias("MAIOR_VALOR"),
+                            pl.col("NOME FAVORECIDO")
+                            .sort_by("VALOR PARCELA", descending=True)
+                            .first()
+                            .alias("FAVORECIDO")])
+                      .sort('MAIOR_VALOR', descending=True))
     
     df_auxilio_brasil = plano_execucao.collect()
     print(df_auxilio_brasil.head(10))
