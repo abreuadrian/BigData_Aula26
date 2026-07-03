@@ -29,7 +29,7 @@ try:
 
         del df
 
-        print(f'\nArquivo {arquivo} procesado!')
+        print(f'\nArquivo {arquivo} processado!')
     
 except Exception as e:
     print(f'Erro 2º try: {e}')
