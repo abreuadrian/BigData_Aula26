@@ -18,7 +18,7 @@ except Exception as e:
     print(f'Erro ao obter dados: {e}')
 
 try:
-    #Processa os arquivos
+    #Concatena os arquivos
     for arquivo in lista_arquivos:
         df = pl.read_csv(DADOS + arquivo, separator=';', encoding='iso-8859-1')
 
